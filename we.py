@@ -117,17 +117,33 @@ def submit():
     # Do something with the user input
     print("User input:", user_input)
     # Close the GUI window after submitting
-    window.destroy()
+    captcha_input = wait.until(EC.presence_of_element_located((By.ID, 'ctl00_ctl00_cph_Base_cph_Child_CaptchaCodeTextBox')))
+    captcha_input.send_keys(user_input)
+    # window.destroy()
 # Create a button to submit the input
+    submit_button = driver.find_element(By.XPATH, '//*[@id="cph_Base_cph_Child_btnRequest"]')
+    submit_button.click()
+    window.destroy()
+    
+# Start the Tkinter event loop
 submit_button = Button(window, text="Submit", command=submit)
 submit_button.pack()
-
-# Start the Tkinter event loop
 window.mainloop()
-
+time.sleep(5)
+result_element = wait.until(EC.visibility_of_element_located((By.XPATH, '/html')))
+result_text = result_element.text
+print("Result:", result_text)
 # Use the user input in the Selenium code
-captcha_input = wait.until(EC.presence_of_element_located((By.ID, 'ctl00_ctl00_cph_Base_cph_Child_CaptchaCodeTextBox')))
-captcha_input.send_keys(user_input)
+# iframe = driver.find_element(By.XPATH, '//*[@id="cph_Base_cph_Child_btnRequest"]')
+# driver.switch_to.frame(iframe)
+
+submit_button1 =driver.find_element(By.ID, 'cph_Base_cph_Child_btnRequest')
+
+submit_button1.click()
+# driver.switch_to.default_content()
+
+# driver.implicitly_wait(10)  # Wait for 10 seconds for elements to appear
+
 # window = Tk()
 # image = Image.open('ws.png')
 # photo = ImageTk.PhotoImage(image)
@@ -173,8 +189,8 @@ captcha_input.send_keys(user_input)
 # print("Input Class:", input_class)
 
 # Find and click the submit button
-submit_button = driver.find_element(By.XPATH, '//*[@id="cph_Base_cph_Child_btnRequest"]')
-submit_button.click()
+# submit_button = wait.until(EC.element_to_be_clickable((By.ID, 'cph_Base_cph_Child_btnRequest')))
+# submit_button.click()
 
 # Wait for the page to load
 
